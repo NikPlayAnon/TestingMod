@@ -2,6 +2,7 @@ package net.nikplayanon.testmod;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.Minecraft;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -12,6 +13,9 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.nikplayanon.testmod.block.ModsBlocks;
+import net.nikplayanon.testmod.item.ModCreativeModeTab;
+import net.nikplayanon.testmod.item.ModItems;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -37,8 +41,8 @@ public class TestMod
 //    // Creates a new food item with the id "examplemod:example_id", nutrition 1 and saturation 2
 //    public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () -> new Item(new Item.Properties().food(new FoodProperties.Builder()
 //            .alwaysEat().nutrition(1).saturationMod(2f).build())));
-//
-//    // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
+
+    // Creates a creative tab with the id "examplemod:example_tab" for the example item, that is placed after the combat tab
 //    public static final RegistryObject<CreativeModeTab> EXAMPLE_TAB = CREATIVE_MODE_TABS.register("example_tab", () -> CreativeModeTab.builder()
 //            .withTabsBefore(CreativeModeTabs.COMBAT)
 //            .icon(() -> EXAMPLE_ITEM.get().getDefaultInstance())
@@ -50,8 +54,8 @@ public class TestMod
     {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
-        // Register the commonSetup method for modloading
         modEventBus.addListener(this::commonSetup);
+        // Register the commonSetup method for modloading
 
 //        // Register the Deferred Register to the mod event bus so blocks get registered
 //        BLOCKS.register(modEventBus);
@@ -59,6 +63,11 @@ public class TestMod
 //        ITEMS.register(modEventBus);
 //        // Register the Deferred Register to the mod event bus so tabs get registered
 //        CREATIVE_MODE_TABS.register(modEventBus);
+
+        ModItems.register(modEventBus);
+        ModsBlocks.register(modEventBus);
+
+        ModCreativeModeTab.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
